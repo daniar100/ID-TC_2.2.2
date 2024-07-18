@@ -179,3 +179,12 @@ def test_dos():
             json.dump(local_storage, f, ensure_ascii=False, indent=4)
         page.wait_for_timeout(2000)
 
+
+def test_dari():
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=False)  # Установите headless=True, если не хотите открывать браузер
+        context = browser.new_context(**p.devices["Pixel 5"],permissions=["geolocation"],
+            geolocation={"latitude": 37.7749, "longitude": -122.4194},
+            locale='en-US')
+        page1 = context.new_page()
+        page1.goto("https://dev.daribar.kz/")
