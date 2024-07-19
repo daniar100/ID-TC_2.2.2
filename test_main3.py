@@ -20,7 +20,7 @@ def test_paracetomol():
             geolocation={"latitude": 37.7749, "longitude": -122.4194},
             locale='en-US')
         page = context.new_page()
-        page.goto("https://dev.daribar.kz/")
+        page.goto("https://daribar.kz/")
         with open("storage_load5.json", 'r', encoding='utf-8') as f:
             local_storage_data = json.load(f)
 
@@ -55,7 +55,7 @@ def test_click_paracetamol():
             geolocation={"latitude": 37.7749, "longitude": -122.4194},
             locale='en-US')
         page = context.new_page()
-        page.goto("https://dev.daribar.kz/products/paracetamol-0-5-10--3c20eebe-3ee1-4d9e-bd34-0ba2afd85286")
+        page.goto("https://daribar.kz/products/paracetamol-0-5-10--3c20eebe-3ee1-4d9e-bd34-0ba2afd85286")
         with open("storage_load1.json", 'r', encoding='utf-8') as f:
             local_storage_data = json.load(f)
 
@@ -86,7 +86,7 @@ def test_naiti_apteka():
                                       geolocation={"latitude": 37.7749, "longitude": -122.4194},
                                       locale='en-US')
         page = context.new_page()
-        page.goto("https://dev.daribar.kz/cart")
+        page.goto("https://daribar.kz/cart")
         with open("storage_load2.json", 'r', encoding='utf-8') as f:
             local_storage_data = json.load(f)
 
@@ -116,7 +116,7 @@ def test_ofo_form():
                                       geolocation={"latitude": 37.7749, "longitude": -122.4194},
                                       locale='en-US')
         page = context.new_page()
-        page.goto("https://dev.daribar.kz/pharmacies")
+        page.goto("https://daribar.kz/pharmacies")
         with open("storage_load3.json", 'r', encoding='utf-8') as f:
             local_storage_data = json.load(f)
 
@@ -127,7 +127,8 @@ def test_ofo_form():
                        }''', local_storage_data)
         page.reload()
         page.wait_for_timeout(6000)
-        page.get_by_role("button",name="Перейти к оформлению 110₸").click()
+        sel=page.get_by_role("button",name="Перейти к оформлению 105₸").first
+        sel.click()
         local_storage = page.evaluate('''() => {
                                     let data = {};
                                     for (let i = 0; i < localStorage.length; i++) {
@@ -147,8 +148,7 @@ def test_dos():
             geolocation={"latitude": 37.7749, "longitude": -122.4194},
             locale='en-US')
         page = context.new_page()
-        page.wait_for_timeout(3000)
-        page.goto("https://dev.daribar.kz/checkout")
+        page.goto("https://daribar.kz/checkout")
         with open("storage_load4.json", 'r', encoding='utf-8') as f:
             local_storage_data = json.load(f)
 
@@ -158,7 +158,6 @@ def test_dos():
                     }
                 }''', local_storage_data)
         page.reload()
-        page.wait_for_timeout(2000)
         sel = page.get_by_role("button", name="Доставка")
         if sel:
             sel.click()
@@ -167,6 +166,9 @@ def test_dos():
         page.wait_for_timeout(3000)
         sel=page.get_by_text("Алматы улица Гоголя,20").first
         sel.click()
+        page.wait_for_timeout(2000)
+        sel2 = page.locator(".DeliveryTimeSwitchContent_descriptionContainer__4ug7N").first
+        sel2.click()
         local_storage = page.evaluate('''() => {
                                                         let data = {};
                                                         for (let i = 0; i < localStorage.length; i++) {
